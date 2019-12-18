@@ -1,6 +1,18 @@
 import axios, { AxiosError } from 'axios';
 import requestConfig from '../config/request';
 
+
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response.status === 401) {
+      clearFromLocalStorage("x-session-id");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const unknownError = (message: string) => {
   let err: AxiosError = {
     message: 'An unknown error occured.',
