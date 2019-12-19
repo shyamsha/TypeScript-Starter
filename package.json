@@ -31,13 +31,19 @@
     "lint": "eslint . --ext .js,.jsx,.ts,tsx",
     "lint:css": "stylelint app/**/*.ts",
     "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint:eslint": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts",
+    "lint:eslint:fix": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts --fix",
     "pre-commit": "yarn lint-staged",
-    "pre-push": "yarn format-check",
     "check:spelling": "yarn check:spelling-interactive -r",
     "check:spelling-interactive": "mdspell '**/*.md' '!**/node_modules/**/*.md' '!**/CHANGELOG.md' '!**/CONTRIBUTORS.md' '!**/ROADMAP.md' --ignore-numbers --en-us"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "commitlint": {
     "extends": [
