@@ -17,14 +17,8 @@
   },
   "rules": {
     "prettier/prettier": "error",
-    "@typescript-eslint/indent": [
-      "error",
-      2
-    ],
-    "arrow-body-style": [
-      2,
-      "as-needed"
-    ],
+    "@typescript-eslint/indent": ["error", 2],
+    "arrow-body-style": [2, "as-needed"],
     "indent": [
       2,
       2,
@@ -34,15 +28,55 @@
     ],
     "max-len": 0,
     "newline-per-chained-call": 0,
-    "no-confusing-arrow": 0,
-    "no-console": 1,
+    "no-confusing-arrow": "error",
+    "no-console": "error",
     "no-unused-vars": 2,
     "no-use-before-define": 0,
-    "prefer-template": 2,
+    "no-mixed-operators": "error",
     "react/destructuring-assignment": 0,
-    "react-hooks/rules-of-hooks": "error"
+    "react-hooks/rules-of-hooks": "error",
+    "no-empty-function": "error",
+    "no-duplicate-imports": "error",
+    "no-extra-semi": "error",
+    "@typescript-eslint/no-empty-function": [
+      "error",
+      {
+        "allow": ["arrowFunctions"]
+      }
+    ],
+    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": "error",
+    "@typescript-eslint/prefer-optional-chain": "error",
+    "@typescript-eslint/unbound-method": "off",
+    "eslint-comments/no-use": [
+      "error",
+      {
+        "allow": [
+          "eslint-disable",
+          "eslint-disable-line",
+          "eslint-disable-next-line",
+          "eslint-enable"
+        ]
+      }
+    ],
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-absolute-path": "error",
+    "import/no-amd": "error",
+    "import/no-default-export": "error",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        " devDependencies": true,
+        "peerDependencies": true,
+        "optionalDependencies": false
+      }
+    ]
   },
-  "plugins": [
-    "prettier"
-  ]
+  "plugins": ["@typescript-eslint", "prettier"]
 }

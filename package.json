@@ -17,7 +17,6 @@
     "react-router": "^5.1.2",
     "react-scripts": "3.3.0",
     "redux": "^4.0.4",
-    "redux-saga": "^1.1.3",
     "styled-components": "^4.4.1",
     "typesafe-actions": "^5.1.0",
     "typescript": "3.7.3",
@@ -27,10 +26,26 @@
     "start": "cross-env TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettify": "prettier --write",
+    "lint": "eslint . --ext .js,.jsx,.ts,tsx",
+    "lint:css": "stylelint app/**/*.ts",
+    "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "pre-commit": "yarn lint-staged",
+    "pre-push": "yarn format-check",
+    "check:spelling": "yarn check:spelling-interactive -r",
+    "check:spelling-interactive": "mdspell '**/*.md' '!**/node_modules/**/*.md' '!**/CHANGELOG.md' '!**/CONTRIBUTORS.md' '!**/ROADMAP.md' --ignore-numbers --en-us"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "engines": {
+    "node": "^8.10.0 || ^10.13.0 || >=11.10.1"
   },
   "browserslist": {
     "production": [
@@ -45,6 +60,9 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/travis-cli": "^8.2.0",
     "@types/react-redux": "^7.1.5",
     "@types/react-router": "^5.1.3",
     "@types/styled-components": "^4.4.1",
@@ -54,6 +72,9 @@
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "markdown-spellcheck": "^1.3.1",
     "prettier": "^1.19.1",
     "redux-devtools-extension": "^2.13.8",
     "stylelint": "^12.0.0",
