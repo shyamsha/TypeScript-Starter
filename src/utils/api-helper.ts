@@ -9,7 +9,8 @@ export interface Error {
 }
 
 export enum ErrorMessages {
-  FORBIDDEN = "Forbidden"
+  FORBIDDEN = "Forbidden",
+  INTERNAL_SERVER_ERROR = "Internal Server Error"
 }
 
 axios.interceptors.response.use(
@@ -23,12 +24,17 @@ axios.interceptors.response.use(
   }
 );
 
+export const get500ErrorMessage = (err: AxiosError) => {
+  if (err.response && err.response && err.response.status===500) {
+    return err.message=ErrorMessages.INTERNAL_SERVER_ERROR;
+  } else {
+    return err;
+  }
+};
 
 export const getErrorMessage = (err: AxiosError) => {
-  if (err.response && err.response.data && err.response.data.error) {
+  if (err.response && err.response.data && err.response.data.error && err.response.status!==500) {
     return err.response.data.error.message;
-  } else if (err.response && err.response.status === 500) {
-    return "Internal Server Error";
   } else {
     return err;
   }
@@ -50,7 +56,6 @@ export const errorMessageHandler = (err: AxiosError) => {
     case 401:
       err.message = ErrorMessages.FORBIDDEN;
       return err;
-
     default:
       return err;
   }
