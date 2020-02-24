@@ -51,7 +51,6 @@ export const getErrorMessageForUploadDocument = (err: AxiosError) => {
 
 export const errorMessageHandler = (err: AxiosError) => {
   if (!err.response) return err;
-
   switch (err.response.status) {
     case 401:
       err.message = ErrorMessages.FORBIDDEN;

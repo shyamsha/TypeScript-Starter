@@ -8,7 +8,7 @@ import { History } from 'history'
 // `connected-react-router` already injects the router state typings for us,
 // so we can ignore them here.
 export interface ApplicationState {
-  router: RouterState
+  router: RouterState<History.PoorMansUnknown>
 }
 
 // Additional props for connected React components. This prop is passed by default with `connect()`

@@ -5,7 +5,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import { ApplicationState } from './store';
 import configureStore from './configureStore';
 import './App.css';
-import logo from './logo.svg';
 import AppNavigator from './navigator/AppNavigator';
 
 const history = createBrowserHistory();
