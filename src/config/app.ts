@@ -1,4 +1,5 @@
 type Config = {
+  env: string;
   isProd: boolean,
   production: {
     api_endpoint: string
@@ -12,7 +13,8 @@ type Config = {
 }
 
 const config: Config = {
-  isProd: false,
+  env: "production",
+  isProd: process.env.NODE_ENV === "production" || false,
   production: {
     api_endpoint: '/api/v1'
   },
