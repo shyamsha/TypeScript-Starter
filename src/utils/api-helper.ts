@@ -1,10 +1,79 @@
 import axios, { AxiosError } from 'axios';
 import requestConfig from '../config/request';
 
+export interface Error {
+  code: number;
+  httpStatus: number;
+  message: string;
+  statusText: string;
+}
+
+export enum ErrorMessages {
+  FORBIDDEN = "Forbidden"
+}
+
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response.status === 401) {
+      clearFromLocalStorage("x-session-id");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
+
+export const getErrorMessage = (err: AxiosError) => {
+  if (err.response && err.response.data && err.response.data.error) {
+    return err.response.data.error.message;
+  } else if (err.response && err.response.status === 500) {
+    return "Internal Server Error";
+  } else {
+    return err;
+  }
+};
+
+export const getErrorMessageForUploadDocument = (err: AxiosError) => {
+  if (err.response && err.response.status === 400) {
+    return "File type not supported";
+  } else {
+    return getErrorMessage(err);
+  }
+};
+
+
+export const errorMessageHandler = (err: AxiosError) => {
+  if (!err.response) return err;
+
+  switch (err.response.status) {
+    case 401:
+      err.message = ErrorMessages.FORBIDDEN;
+      return err;
+
+    default:
+      return err;
+  }
+};
+
+
+export const getDownloadedFileNameFromContentDisposotionHeader = (
+  header: string
+) => {
+  const contentArray = header.split("=");
+  if (contentArray.length > 1) {
+    return contentArray[contentArray.length - 1];
+  } else {
+    return "";
+  }
+};
+
+
 export const unknownError = (message: string) => {
-  let err: AxiosError = {
+  let err: AxiosError<any> = {
     message: 'An unknown error occured.',
     code: "500",
+    toJSON:() =>Object,
     response: {
       data: {},
       status: 500,
