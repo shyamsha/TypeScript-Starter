@@ -25,3 +25,8 @@ const API_ENDPOINT = isProd
     return API.get(url);
   };
   
+  /*testing-500-error*/
+  export const test = () => {
+    const url =`${API_ENDPOINT}`;
+    return API.get(url)
+  }
