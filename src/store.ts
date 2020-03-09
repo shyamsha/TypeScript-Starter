@@ -1,14 +1,19 @@
 import { combineReducers, Dispatch, Action, AnyAction } from 'redux'
 import { RouterState, connectRouter } from 'connected-react-router';
-import { all } from 'redux-saga/effects';
+import { all, fork } from 'redux-saga/effects';
 import { History } from 'history'
+import { AuthState } from './containers/Auth/types';
+import { authReducer } from './containers/Auth/reducers';
+import { Reducer } from 'typesafe-actions';
+import { authSaga } from './containers/Auth/saga';
 
 // The top-level state object.
 //
 // `connected-react-router` already injects the router state typings for us,
 // so we can ignore them here.
 export interface ApplicationState {
-  router: RouterState
+  auth: AuthState;
+  router: RouterState<History.PoorMansUnknown>
 }
 
 // Additional props for connected React components. This prop is passed by default with `connect()`
@@ -21,6 +26,7 @@ export interface ConnectedReduxProps<A extends Action = AnyAction> {
 // the reducer acts on the corresponding ApplicationState property type.
 export const createRootReducer = (history: History) =>
   combineReducers({
+    auth: authReducer as Reducer<AuthState, AnyAction>,
     router: connectRouter(history)
   })
 
@@ -28,5 +34,5 @@ export const createRootReducer = (history: History) =>
 // "generator function", which you can read about here:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*
 export function* rootSaga() {
-  yield all([])
+  yield all([fork(authSaga)])
 }

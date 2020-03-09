@@ -19,7 +19,7 @@ const config: Config = {
     api_endpoint: '/api/v1'
   },
   staging: {
-    api_endpoint: ''
+    api_endpoint: 'http://www.mocky.io/v2/5e5623dd3000000f0028e30e'
   },
   development: {
     api_endpoint: ''
