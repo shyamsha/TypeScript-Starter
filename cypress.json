@@ -1,0 +1,11 @@
+{
+  "projectId": "Yamma-123456789",
+  "env": {
+    "baseUrl": "http://localhost:3000/"
+  },
+  "fixturesFolder": false,
+  "pluginsFile": false,
+  "supportFile": false,
+  "viewportWidth": 1360,
+  "viewportHeight": 736
+}
