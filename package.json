@@ -102,7 +102,7 @@
     "redux-devtools-extension": "^2.13.8",
     "require-context.macro": "^1.2.2",
     "storybook-addon-specifications": "^2.1.5",
-    "stylelint": "^13.2.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-prettier": "^8.0.0",
     "stylelint-config-recommended": "^3.0.0",
     "stylelint-config-styled-components": "^0.1.1",
