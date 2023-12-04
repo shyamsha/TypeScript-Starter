@@ -13,7 +13,7 @@ import { authSaga } from './containers/Auth/saga';
 // so we can ignore them here.
 export interface ApplicationState {
   auth: AuthState;
-  router: RouterState<History.PoorMansUnknown>
+  router: RouterState<any>
 }
 
 // Additional props for connected React components. This prop is passed by default with `connect()`

@@ -1,49 +1,46 @@
-import React, { Component, Dispatch, Fragment } from 'react'
-import { connect } from 'react-redux';
-import { loginRequest } from '../actions';
-import { ApplicationState } from '../../../store';
-
+import { Component, Dispatch, Fragment } from "react";
+import { connect } from "react-redux";
+import { loginRequest } from "../actions";
+import { ApplicationState } from "../../../store";
+import React from "react";
 
 interface PropsFromState {
-    loading: boolean;
-    errors: {  };
-  };
-  
-  interface PropsDispatchFromState {
-    onLogin: typeof loginRequest;
-   
-  };
-  
-  type AllProps = PropsFromState & PropsDispatchFromState;
-  
-  interface State {};
-  
+  loading: boolean;
+  errors: {};
+}
 
-class Login extends Component<AllProps,State> {
-    state:State={}
+interface PropsDispatchFromState {
+  onLogin: typeof loginRequest;
+}
 
-    componentDidMount() {
-        this.props.onLogin()
-    }
-    
+type AllProps = PropsFromState & PropsDispatchFromState;
 
-    render() {
-        return (
-            <Fragment>
-               <div>first</div>
-               <div>second</div>
-            </Fragment>
-        )
-    }
+interface State {}
+
+class Login extends Component<AllProps, State> {
+  state: State = {};
+
+  componentDidMount() {
+    this.props.onLogin();
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <div>first</div>
+        <div>second</div>
+      </Fragment>
+    );
+  }
 }
 
 const mapStateToProps: any = ({ auth }: ApplicationState) => ({
-    loading:auth.loading,
-    errors:auth.errors
+  loading: auth.loading,
+  errors: auth.errors,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    onLogin: () => dispatch(loginRequest()),
+  onLogin: () => dispatch(loginRequest()),
 });
 
 export default connect<any>(mapStateToProps, mapDispatchToProps)(Login);

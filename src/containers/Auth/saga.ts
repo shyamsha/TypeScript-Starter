@@ -7,9 +7,9 @@ import { AuthActionTypes } from "./types";
 
 type SagaAction<T> = Action & { payload: T };
 
-function* login() {
+function* login(): any {
   try {
-    const res = yield call(Api.test);
+    let res = yield call(Api.test);
     if (res.error) {
       yield put(loginError(res.error));
     } else {
@@ -19,7 +19,7 @@ function* login() {
     if (err instanceof Error) {
       yield put(loginError(err));
     } else {
-      yield put(loginError(unknownError("An unknown error occured")));
+      yield put(loginError(unknownError("An unknown error occurred")));
     }
   }
 }
@@ -27,8 +27,7 @@ function* login() {
 function* watchFetchRequest() {
     yield takeLatest(AuthActionTypes.LOGIN_REQUEST, login);
   }
-  
+
   export function* authSaga() {
     yield all([fork(watchFetchRequest)]);
   }
-  

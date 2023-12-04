@@ -1,5 +1,5 @@
-import axios, { AxiosError } from 'axios';
-import requestConfig from '../config/request';
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import requestConfig from "../config/request";
 
 export interface Error {
   code: number;
@@ -10,31 +10,36 @@ export interface Error {
 
 export enum ErrorMessages {
   FORBIDDEN = "Forbidden",
-  INTERNAL_SERVER_ERROR = "Internal Server Error"
+  INTERNAL_SERVER_ERROR = "Internal Server Error",
 }
 
 axios.interceptors.response.use(
-  response => response,
-  error => {
+  (response) => response,
+  (error) => {
     if (error.response.status === 401) {
       clearFromLocalStorage("x-session-id");
       window.location.href = "/login";
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export const get500ErrorMessage = (err: AxiosError) => {
-  if (err.response && err.response && err.response.status===500) {
-    return err.message=ErrorMessages.INTERNAL_SERVER_ERROR;
+  if (err.response && err.response && err.response.status === 500) {
+    return (err.message = ErrorMessages.INTERNAL_SERVER_ERROR);
   } else {
     return err;
   }
 };
 
 export const getErrorMessage = (err: AxiosError) => {
-  if (err.response && err.response.data && err.response.data.error && err.response.status!==500) {
-    return err.response.data.error.message;
+  if (
+    err.response &&
+    err.response.data &&
+    err.response.data &&
+    err.response.status !== 500
+  ) {
+    return err.response.data;
   } else {
     return err;
   }
@@ -48,7 +53,6 @@ export const getErrorMessageForUploadDocument = (err: AxiosError) => {
   }
 };
 
-
 export const errorMessageHandler = (err: AxiosError) => {
   if (!err.response) return err;
   switch (err.response.status) {
@@ -60,9 +64,8 @@ export const errorMessageHandler = (err: AxiosError) => {
   }
 };
 
-
 export const getDownloadedFileNameFromContentDisposotionHeader = (
-  header: string
+  header: string,
 ) => {
   const contentArray = header.split("=");
   if (contentArray.length > 1) {
@@ -72,26 +75,25 @@ export const getDownloadedFileNameFromContentDisposotionHeader = (
   }
 };
 
-
 export const unknownError = (message: string) => {
   let err: AxiosError<any> = {
-    message: 'An unknown error occured.',
+    message: "An unknown error occurred.",
     code: "500",
-    toJSON:() =>Object,
+    toJSON: () => Object,
     response: {
       data: {},
       status: 500,
       statusText: "Error",
       headers: {},
-      config: {},
+      config: {} as InternalAxiosRequestConfig,
     },
-    config: {},
-    name: 'Error',
-    isAxiosError: false
-  }
+    config: {} as InternalAxiosRequestConfig,
+    name: "Error",
+    isAxiosError: false,
+  };
 
-  return err
-}
+  return err;
+};
 
 export const getFromLocalStorage = async (key: string) => {
   try {
@@ -125,7 +127,7 @@ export const clearFromLocalStorage = async (key: string) => {
 
 async function getRequestConfig(apiConfig?: any) {
   let config = Object.assign({}, requestConfig);
-  const session = await localStorage.getItem('user');
+  const session = await localStorage.getItem("user");
   if (apiConfig) {
     config = Object.assign({}, requestConfig, apiConfig);
   }
@@ -136,13 +138,13 @@ async function getRequestConfig(apiConfig?: any) {
 }
 
 async function getUrlWithToken(url: string) {
-  const userToken = await localStorage.getItem('accessToken');
+  const userToken = await localStorage.getItem("accessToken");
   if (!userToken) return url;
   return `${url}${
-    url.indexOf('?') !== -1
+    url.indexOf("?") !== -1
       ? `&access_token=${userToken}`
       : `?access_token=${userToken}`
-    }`;
+  }`;
 }
 
 export const get = async (url: string, params?: string, apiConfig?: any) => {
@@ -158,36 +160,34 @@ export const post = async (url: string, data: any, apiConfig: any) => {
   if (
     apiConfig &&
     apiConfig.headers &&
-    apiConfig.headers['Content-Type'] &&
-    apiConfig.headers['Content-Type'] !== 'application/json'
+    apiConfig.headers["Content-Type"] &&
+    apiConfig.headers["Content-Type"] !== "application/json"
   ) {
     postData = data;
-    axios.defaults.headers.post['Content-Type'] =
-      apiConfig.headers['Content-Type'];
+    axios.defaults.headers.post["Content-Type"] =
+      apiConfig.headers["Content-Type"];
   } else {
     postData = JSON.stringify(data);
-    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios.defaults.headers.post["Content-Type"] = "application/json";
   }
-  const request = axios.post(
-    await getUrlWithToken(url),
-    postData,
-    config);
+  const request = axios.post(await getUrlWithToken(url), postData, config);
   return request;
 };
 
 export const put = async (url: string, data: any) => {
   const config = await getRequestConfig();
-  config.headers['Content-Type'] = 'application/json';
+  config.headers["Content-Type"] = "application/json";
   const request = axios.put(
     await getUrlWithToken(url),
     JSON.stringify(data),
-    config);
+    config,
+  );
   return request;
 };
 
 export const patch = async (url: string, data: any) => {
   const config = await getRequestConfig();
-  config.headers['Content-Type'] = 'application/json';
+  config.headers["Content-Type"] = "application/json";
   const request = axios.patch(
     await getUrlWithToken(url),
     JSON.stringify(data),

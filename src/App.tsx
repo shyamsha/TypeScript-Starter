@@ -1,4 +1,3 @@
-import React from "react";
 import { createBrowserHistory } from "history";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
@@ -8,10 +7,11 @@ import "./App.css";
 import AppNavigator from "./navigator/AppNavigator";
 import ErrorBoundary from "./components/Error/ErrorBoundary";
 import { authInitialState } from "./containers/Auth/reducers";
+import React from "react";
 
 const history = createBrowserHistory();
 
-const initialState: ApplicationState = {
+const initialState: ApplicationState | any = {
   auth: authInitialState,
   router: { location: history.location, action: "PUSH" },
 };
